@@ -127,7 +127,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-2xl font-bold text-gray-800">Admin Settings</h2>
-                        <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                        <a href="{{route('users.create')}}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                             Create New User
                         </a>
                     </div>
@@ -177,9 +177,9 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                        <a href="{{route('users.edit',$user)}}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
                                         @if($user->id !== Auth::id())
-                                        <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                        <a href="{{route('users.destroy',$user)}}" class="text-red-600 hover:text-red-900">Delete</a>
                                         @endif
                                     </td>
                                 </tr>
