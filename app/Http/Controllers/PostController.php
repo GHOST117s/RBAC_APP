@@ -15,10 +15,10 @@ class PostController extends Controller
     public function index()
     {
         // all posts
-    //   $posts = Post::with('user')->latest()->paginate(10);
-        $posts = Post::latest()->get();
+      $posts = Post::with('user')->latest()->paginate(10);
+        // $posts = Post::latest()->get();
         //
-      dd($posts);
+    //   dd($posts);
         // $posts = Auth::user()->posts()->latest()->paginate(10);
         return view('posts.index', compact('posts'));
     }
@@ -28,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -36,7 +36,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'status' => 'required|in:draft,published,archived',
+        ]);
+
+        $post = Auth::user()->posts()->create($validated);
+
+        return redirect()->route('posts.show', $post)
+            ->with('success', 'Post created successfully.');
     }
 
     /**
@@ -54,7 +63,15 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        // Check if user owns this post
+        if ($post->user_id !== Auth::id()) {
+            return redirect()->route('posts.index')
+                ->with('error', 'You are not authorized to edit this post.');
+        }
+
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -62,7 +79,24 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        // Check if user owns this post
+        if ($post->user_id !== Auth::id()) {
+            return redirect()->route('posts.index')
+                ->with('error', 'You are not authorized to update this post.');
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'status' => 'required|in:draft,published,archived',
+        ]);
+
+        $post->update($validated);
+
+        return redirect()->route('posts.show', $post)
+            ->with('success', 'Post updated successfully.');
     }
 
     /**
@@ -70,6 +104,17 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        // Check if user owns this post
+        if ($post->user_id !== Auth::id()) {
+            return redirect()->route('posts.index')
+                ->with('error', 'You are not authorized to delete this post.');
+        }
+
+        $post->delete();
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post deleted successfully.');
     }
 }
