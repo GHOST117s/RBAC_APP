@@ -123,6 +123,7 @@
                     </div>
                 </div>
             <!-- Admin Section -->
+            @if(Auth::user()->hasRole('admin'))
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex justify-between items-center mb-4">
@@ -131,6 +132,9 @@
                             Create New User
                         </a>
                     </div>
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                            You have admin access.
+                        </div>
                     <!-- User Management Table -->
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -187,6 +191,7 @@
                             </tbody>
                         </table>
                     </div>
+                    @endif
                 </div>
             </div>
 
