@@ -1,7 +1,11 @@
 <?php
+// filepath: /home/sidharth/Live/RBAC_APP/routes/web.php
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,23 +17,35 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); // Ad
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// User management routes with permissions
-Route::get('/users', [UserController::class, 'index'])->middleware('permission:view users')->name('users.index');
-Route::get('/users/create', [UserController::class, 'create'])->middleware('permission:create users')->name('users.create');
-Route::post('/users', [UserController::class, 'store'])->middleware('permission:create users')->name('users.store');
-Route::get('/users/{user}', [UserController::class, 'show'])->middleware('permission:view users')->name('users.show');
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('permission:edit users')->name('users.edit');
-Route::put('/users/{user}', [UserController::class, 'update'])->middleware('permission:edit users')->name('users.update');
-Route::delete('/users/{user}', [UserController::class, 'destroy'])->middleware('permission:delete users')->name('users.destroy');
-
-Route::middleware('auth')->group(function () {
+// Routes that require authentication
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('posts', PostController::class);
+    // User management routes
     Route::resource('users', UserController::class);
-});
 
+    // Post management routes
+    Route::resource('posts', PostController::class);
+
+    // Admin routes
+    Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+        // Admin settings page
+        Route::get('/settings', function () {
+            return view('admin.settings');
+        })->name('settings');
+
+        // Role management routes
+        Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
+        Route::put('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+        // Permission management routes
+        Route::post('/permissions', [PermissionController::class, 'store'])->name('permissions.store');
+        Route::put('/permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
+        Route::delete('/permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+    });
+});
