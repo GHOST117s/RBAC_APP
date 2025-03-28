@@ -83,12 +83,17 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-2">
+                                    @can('view', $user)
                                     <a href="{{ route('users.show', $user) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                                         View
                                     </a>
+                                    @endcan
+                                    @can('update', $user)
                                     <a href="{{ route('users.edit', $user) }}" class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">
                                         Edit
                                     </a>
+                                    @endcan
+                                    @can('delete', $user)
                                     @if($user->id !== auth()->id())
                                     <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this user?');">
                                         @csrf
@@ -98,6 +103,7 @@
                                         </button>
                                     </form>
                                     @endif
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

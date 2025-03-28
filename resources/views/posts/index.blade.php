@@ -66,12 +66,16 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-2">
+
                                     <a href="{{ route('posts.show', $post) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                                         View
                                     </a>
+                                    @can('update', $post)
                                     <a href="{{ route('posts.edit', $post) }}" class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">
                                         Edit
                                     </a>
+                                    @endcan
+                                    @can('delete', $post)
                                     <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this post?');">
                                         @csrf
                                         @method('DELETE')
@@ -79,6 +83,7 @@
                                             Delete
                                         </button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
