@@ -65,8 +65,8 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        // Check if user owns this post
-        if ($post->user_id !== Auth::id()) {
+        // Check if user owns this post or has permission to edit any post
+        if ($post->user_id !== Auth::id() && !Auth::user()->can('edit posts')) {
             return redirect()->route('posts.index')
                 ->with('error', 'You are not authorized to edit this post.');
         }
@@ -79,10 +79,11 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // dd(Auth::user()->can('edit posts'));
         $post = Post::findOrFail($id);
 
-        // Check if user owns this post
-        if ($post->user_id !== Auth::id()) {
+        // Check if user owns this post or has permission to edit any post
+        if ($post->user_id !== Auth::id() && !Auth::user()->can('edit posts')) {
             return redirect()->route('posts.index')
                 ->with('error', 'You are not authorized to update this post.');
         }
@@ -92,6 +93,11 @@ class PostController extends Controller
             'content' => 'required|string',
             'status' => 'required|in:draft,published,archived',
         ]);
+
+        // Check publishing permission if status changed to published
+        if ($validated['status'] === 'published' && $post->status !== 'published' && !Auth::user()->can('publish posts')) {
+            $validated['status'] = $post->status; // Keep original status
+        }
 
         $post->update($validated);
 
@@ -106,8 +112,8 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        // Check if user owns this post
-        if ($post->user_id !== Auth::id()) {
+        // Check if user owns this post or has permission to delete any post
+        if ($post->user_id !== Auth::id() && !Auth::user()->can('delete posts')) {
             return redirect()->route('posts.index')
                 ->with('error', 'You are not authorized to delete this post.');
         }

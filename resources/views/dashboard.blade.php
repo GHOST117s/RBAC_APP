@@ -132,9 +132,9 @@
                             Create New User
                         </a>
                     </div>
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        {{-- <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                             You have admin access.
-                        </div>
+                        </div> --}}
                     <!-- User Management Table -->
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -191,9 +191,9 @@
                             </tbody>
                         </table>
                     </div>
-                    @endif
                 </div>
             </div>
+            @endif
 
 
         </div>

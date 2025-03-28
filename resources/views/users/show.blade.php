@@ -49,6 +49,19 @@
                     <p class="font-medium text-gray-900 dark:text-white">{{ $user->posts_count }}</p>
                 </div>
             </div>
+
+            <div class="mt-6">
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Roles</p>
+                <div class="flex flex-wrap gap-2">
+                    @forelse ($user->roles as $role)
+                        <span class="px-2 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-100">
+                            {{ ucfirst($role->name) }}
+                        </span>
+                    @empty
+                        <span class="text-gray-500 dark:text-gray-400">No roles assigned</span>
+                    @endforelse
+                </div>
+            </div>
         </div>
     </div>
 

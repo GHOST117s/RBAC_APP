@@ -51,6 +51,25 @@
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 </div>
 
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Roles</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        @foreach($roles as $role)
+                            <div class="flex items-center">
+                                <input type="checkbox" name="roles[]" id="role-{{ $role->id }}" value="{{ $role->id }}"
+                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600"
+                                    {{ (is_array(old('roles')) && in_array($role->id, old('roles'))) || (old('roles') === null && in_array($role->id, $userRoles)) ? 'checked' : '' }}>
+                                <label for="role-{{ $role->id }}" class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                                    {{ ucfirst($role->name) }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                    @error('roles')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="flex items-center justify-end">
                     <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md">
                         Update User
