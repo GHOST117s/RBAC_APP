@@ -2,7 +2,7 @@
 
 ## 🚀 Project Overview
 
-A comprehensive Laravel application demonstrating Role-Based Access Control (RBAC) using the Spatie Permission package. This project provides a robust user management system with granular permission controls.
+A comprehensive Laravel application demonstrating Role-Based Access Control (RBAC) using the Spatie Permission package. 
 
 ## 📋 Table of Contents
 
