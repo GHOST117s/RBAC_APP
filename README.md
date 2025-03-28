@@ -1,66 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Role-Based Access Control (RBAC) Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 🚀 Project Overview
 
-## About Laravel
+A comprehensive Laravel application demonstrating Role-Based Access Control (RBAC) using the Spatie Permission package. This project provides a robust user management system with granular permission controls.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Table of Contents
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Default Users](#-default-users)
+- [Features](#-key-features)
+- [Authorization System](#-authorization-system)
+- [Permission Hierarchy](#-permission-hierarchy)
+- [Development Setup](#-development-setup)
+- [Testing](#-testing)
+- [Security](#-security)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 💻 Requirements
 
-## Learning Laravel
+- PHP 8.1+
+- Composer
+- Postgres
+- Node.js & NPM
+- Laravel 12.x
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🔧 Installation
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clone the Repository
+```bash
+git clone https://github.com/GHOST117s/RBAC_APP.git
+cd rbac-app
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Install Dependencies
+```bash
+# PHP Dependencies
+composer install
 
-## Laravel Sponsors
+# Frontend Assets
+npm install
+npm run dev
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Environment Setup
+```bash
+# Create environment file
+cp .env.example .env
 
-### Premium Partners
+# Generate application key
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## ⚙️ Configuration
 
-## Contributing
+### Database Configuration
+Edit the `.env` file with your database credentials:
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=RBAC
+DB_USERNAME=root
+DB_PASSWORD=root
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Database Initialization
+```bash
+# Run migrations and seed database
+php artisan migrate --seed
+```
 
-## Code of Conduct
+## 👥 Default Users
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Email | Password | Role |
+|-------|----------|------|
+| admin@example.com | password | Super Admin |
+| editor@example.com | password | Editor |
+| author@example.com | password | Author |
+| user@example.com | password | User |
 
-## Security Vulnerabilities
+## ✨ Key Features
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. User Management
+- Create, edit, and delete users
+- Role assignment
+- User activity tracking
 
-## License
+### 2. Role Management
+- Dynamic role creation
+- Permission-based role assignments
+- Protected system roles
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Permission Management
+- Granular permission creation
+- Role-permission mapping
+- System permission protection
+
+### 4. Post Management
+- CRUD operations
+- Permission-based access control
+- Publication workflow
+
+## 🔐 Authorization System
+
+The application implements multi-level authorization:
+
+1. **Policies**: Centralized permission logic
+2. **Middleware**: Route-level permission checks
+3. **Blade Directives**: UI-level permission controls
+
+### Permission Categories
+
+#### Post Permissions
+- `view posts`
+- `create posts`
+- `edit posts`
+- `delete posts`
+- `publish posts`
+
+#### User Permissions
+- `view users`
+- `create users`
+- `edit users`
+- `delete users`
+
+#### Role Permissions
+- `create roles`
+- `edit roles`
+- `delete roles`
+- `assign roles`
+
+#### Permission Permissions
+- `create permissions`
+- `edit permissions`
+- `delete permissions`
+
+## 🚀 Development Setup
+
+### Running the Application
+```bash
+npm run start
+```
+
+
