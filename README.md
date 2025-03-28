@@ -14,10 +14,7 @@ A comprehensive Laravel application demonstrating Role-Based Access Control (RBA
 - [Authorization System](#-authorization-system)
 - [Permission Hierarchy](#-permission-hierarchy)
 - [Development Setup](#-development-setup)
-- [Testing](#-testing)
-- [Security](#-security)
-- [Contributing](#-contributing)
-- [License](#-license)
+
 
 ## 💻 Requirements
 
